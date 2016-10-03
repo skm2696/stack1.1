@@ -21,7 +21,8 @@ public:
     Stack(Stack const & rhs);   /*strong*/
     ~Stack();   /*noexcept*/
     auto count() const -> size_t;   /*noexcept*/
-    auto pop() -> T;    /*basic*/
+    auto pop() -> void; /*strong*/
+    auto top() const -> const T&; /*strong*/
     auto push(T const & value) -> void;    /*strong*/
     bool operator==(stack const & h);   /*noexcept*/
     auto operator=(Stack const & rhs) -> Stack &;   /*strong*/
