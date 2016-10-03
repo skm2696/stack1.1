@@ -1,7 +1,7 @@
 #include "stack.hpp"
 
-#ifndef STACK_H
-#define STACK_H
+#ifndef STACK_CPP
+#define STACK_CPP
 
 template<typename T>
 inline Stack<T>::Stack() : count_(0) {
@@ -99,4 +99,4 @@ bool stack<T>::operator==(stack const & h)
 }
 
 
-#endif // STACK_H
+#endif 
