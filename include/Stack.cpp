@@ -105,6 +105,11 @@ bool stack<T>::operator==(stack const & h)
 	}
 	return true;
 }
+template<typename T> 
+bool stack<T>::empty() const noexcept  
+{
+	return (count_ == 0);
+}
 
 
 #endif 
