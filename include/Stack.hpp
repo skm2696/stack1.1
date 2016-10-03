@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <memory>
-//#include <cassert>
+
 #ifndef STACK_HPP
 #define STACK_HPP
 
