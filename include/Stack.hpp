@@ -25,6 +25,7 @@ public:
     auto top() const -> const T&; /*strong*/
     auto push(T const & value) -> void;    /*strong*/
     bool operator==(stack const & h);   /*noexcept*/
+    bool empty() const noexcept;    /*noexcept*/
     auto operator=(Stack const & rhs) -> Stack &;   /*strong*/
 private:
    
