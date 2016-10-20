@@ -1,41 +1,38 @@
-#include <cstdlib>
-#include <iostream>
-#include <memory>
-
+#pragma once
 #ifndef STACK_HPP
 #define STACK_HPP
-
-using std::size_t;
-using std::ostream;
-
+#include <iostream>
 template<typename T>
-class Stack;
+class allocator
+{
+protected:
+	allocator(size_t size = 0);
+	~allocator();
+	void swap(allocator& stk);
+	allocator(allocator const&) = delete;
+	allocator& operator=(allocator const&) = delete;
 
-template<typename T>
-ostream & operator<<(ostream & output, Stack<T> & stack);
-
-template<typename T>
-class Stack {
-public:
-    Stack();    /*noexcept*/
-    Stack(Stack const & rhs);   /*strong*/
-    ~Stack();   /*noexcept*/
-    auto count() const -> size_t;   /*noexcept*/
-    auto pop() -> void; /*strong*/
-    auto top() const -> const T&; /*strong*/
-    auto push(T const & value) -> void;    /*strong*/
-    bool operator==(stack const & h);   /*noexcept*/
-    bool empty() const noexcept;    /*noexcept*/
-    auto operator=(Stack const & rhs) -> Stack &;   /*strong*/
-private:
-   
-    size_t array_size_;
-    size_t count_;
-     T * array_;
-    auto swap(Stack & rhs) -> void;
+	T * array_;
+	size_t array_size_;
+	size_t count_;
 };
+template <typename T>
+class stack : private allocator<T>
+{
+public:
+	stack();
+	~stack();
+	stack(const stack & obj);
+	size_t count() const noexcept;
+	void push(T const &);
+	void pop();
+	const T& top();
+	stack & operator=(const stack &obj);
+	bool operator==(stack const & rhs);
+	
+};
+#include "Stack.cpp"
+#endif
 
-#include "stack.cpp"
 
-#endif // STACK_HPP
 
