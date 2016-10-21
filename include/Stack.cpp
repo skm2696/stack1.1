@@ -26,7 +26,7 @@ void destroy(FwdIter first, FwdIter last) noexcept
 
 
 template <typename T>
-T* copy_with_new(const T * arr, size_t count, size_t array_size)
+T* copy_n(const T * arr, size_t count, size_t array_size)
 {
 	T * vit = new T[array_size];
 	try
@@ -73,7 +73,7 @@ void stack<T>::push(T const &v)
 	if (allocator<T>::count_ == allocator<T>::array_size_)
 	{
 		size_t array_size = allocator<T>::array_size_*2+(allocator<T>::array_size_==0);
-		T * vit = copy_with_new(allocator<T>::array_, allocator<T>::count_, array_size);
+		T * vit = copy_n(allocator<T>::array_, allocator<T>::count_, array_size);
 		delete[] allocator<T>::array_;
 		allocator<T>::array_ = vit;
 		allocator<T>::array_size_ = array_size;
@@ -110,7 +110,7 @@ stack<T>::stack(const stack&tmp)
 {
 	allocator<T>::count_ = tmp.count_;
 	allocator<T>::array_size_ = tmp.array_size_;
-	allocator<T>::array_=copy_with_new(tmp.array_, tmp.count_, tmp.array_size_); 
+	allocator<T>::array_=copy_n(tmp.array_, tmp.count_, tmp.array_size_); 
 }
 template <typename T>
 stack<T>& stack<T>::operator=(const stack &obj)
@@ -118,7 +118,7 @@ stack<T>& stack<T>::operator=(const stack &obj)
 
 	if (this != &obj)
 	{
-		T* vit = copy_with_new(obj.array_, obj.count_, obj.array_size_);
+		T* vit = copy_n(obj.array_, obj.count_, obj.array_size_);
 		delete[] allocator<T>::array_;
 		allocator<T>::array_ = vit;
 		allocator<T>::array_size_ = obj.array_size_;
