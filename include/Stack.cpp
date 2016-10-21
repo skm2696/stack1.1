@@ -31,7 +31,7 @@ T* copy_n(const T * arr, size_t count, size_t array_size)
 	T * vit = new T[array_size];
 	try
 	{
-		std::copy(arr, arr + count, stk);
+		std::copy(arr, arr + count, vit);
 	}
 	catch (...)
 	{
@@ -136,7 +136,7 @@ bool stack<T>::operator==(stack const & vit)
 	}
 	else {
 		for (size_t i = 0; i < allocator<T>::count_; i++) {
-			if (rhs.array_[i] != allocator<T>::array_[i]) {
+			if (vit.array_[i] != allocator<T>::array_[i]) {
 				return false;
 			}
 		}
