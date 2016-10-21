@@ -28,27 +28,27 @@ void destroy(FwdIter first, FwdIter last) noexcept
 template <typename T>
 T* copy_with_new(const T * arr, size_t count, size_t array_size)
 {
-	T * stk = new T[array_size];
+	T * vit = new T[array_size];
 	try
 	{
 		std::copy(arr, arr + count, stk);
 	}
 	catch (...)
 	{
-		delete[] stk;
+		delete[] vit;
 		throw;
 	}
-	return stk;
+	return vit;
 };
-template <typename T>// конструктор аллокатора
+template <typename T>
 allocator<T>::allocator(size_t size) : array_(static_cast<T *>(size == 0 ? nullptr : operator new(size * sizeof(T)))), array_size_(0), count_(size) {
 };
-template <typename T>//деструктор аллокатора
+template <typename T>
 allocator<T>::~allocator() 
 {
 	operator delete(array_);
 };
-template <typename T>//swap allocator
+template <typename T>
 void allocator<T>::swap(allocator& stk)
 {
 	std::swap(array_, stk.array_);
@@ -67,23 +67,23 @@ size_t stack<T>::count() const noexcept
 	return allocator<T>::count_;
 }
 template <typename T>
-void stack<T>::push(T const &elem)
+void stack<T>::push(T const &v)
 {
 
 	if (allocator<T>::count_ == allocator<T>::array_size_)
 	{
 		size_t array_size = allocator<T>::array_size_*2+(allocator<T>::array_size_==0);
-		T * stk = copy_with_new(allocator<T>::array_, allocator<T>::count_, array_size);
+		T * vit = copy_with_new(allocator<T>::array_, allocator<T>::count_, array_size);
 		delete[] allocator<T>::array_;
-		allocator<T>::array_ = stk;
+		allocator<T>::array_ = vit;
 		allocator<T>::array_size_ = array_size;
 	}
-	construct(allocator<T>::array_ + allocator<T>::count_, elem);
+	construct(allocator<T>::array_ + allocator<T>::count_, v);
 	++allocator<T>::count_;
 
 }
 template <typename T>
-void stack<T>::pop()
+size_t stack<T>::pop()
 {
 	if (allocator<T>::count_ == 0)
 	{
@@ -118,9 +118,9 @@ stack<T>& stack<T>::operator=(const stack &obj)
 
 	if (this != &obj)
 	{
-		T* stk = copy_with_new(obj.array_, obj.count_, obj.array_size_);
+		T* vit = copy_with_new(obj.array_, obj.count_, obj.array_size_);
 		delete[] allocator<T>::array_;
-		allocator<T>::array_ = stk;
+		allocator<T>::array_ = vit;
 		allocator<T>::array_size_ = obj.array_size_;
 		allocator<T>::count_ = obj.count_;
 	}
@@ -129,9 +129,9 @@ stack<T>& stack<T>::operator=(const stack &obj)
 }
 
 template<typename T>
-bool stack<T>::operator==(stack const & rhs)
+bool stack<T>::operator==(stack const & vit)
 {
-	if ((rhs.count_ != allocator<T>::count_) || (rhs.array_size_ != allocator<T>::array_size_)) {
+	if ((vit.count_ != allocator<T>::count_) || (vit.array_size_ != allocator<T>::array_size_)) {
 		return false;
 	}
 	else {
