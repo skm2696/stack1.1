@@ -3,6 +3,14 @@
 #define STACK_HPP
 #include <iostream>
 template<typename T>
+auto copy(const T * rhs, size_t sizeLeft, size_t sizeRight)->T *; /*strong*/
+template <typename T1, typename T2>
+auto construct(T1 * ptr, T2 const & value) -> void;
+template <typename T>
+auto destroy(T * ptr) noexcept -> void;
+template <typename FwdIter>
+auto destroy(FwdIter first, FwdIter last) noexcept -> void;
+template<typename T>
 class allocator
 {
 protected:
