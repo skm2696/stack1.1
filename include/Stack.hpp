@@ -2,14 +2,12 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 #include <iostream>
-template<typename T>
-auto copy(const T * rhs, size_t sizeLeft, size_t sizeRight)->T *; /*strong*/
 template <typename T1, typename T2>
-auto construct(T1 * ptr, T2 const & value) -> void;
+void construct(T1 * ptr, T2 const & value);
 template <typename T>
-auto destroy(T * ptr) noexcept -> void;
+void destroy(T * ptr) noexcept;
 template <typename FwdIter>
-auto destroy(FwdIter first, FwdIter last) noexcept -> void;
+void destroy(FwdIter first, FwdIter last) noexcept;
 template<typename T>
 class allocator
 {
