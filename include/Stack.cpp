@@ -143,5 +143,9 @@ bool stack<T>::operator==(stack const & vit)
 	}
 	return true;
 }
-
+template<typename T> 
+bool stack<T>::empty() const noexcept
+{
+	return (allocator<T>::count_ == 0);
+}
 #endif
