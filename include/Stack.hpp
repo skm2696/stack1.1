@@ -2,12 +2,7 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 #include <iostream>
-template <typename T1, typename T2>
-void construct(T1 * ptr, T2 const & value);
-template <typename T>
-void destroy(T * ptr) noexcept;
-template <typename FwdIter>
-void destroy(FwdIter first, FwdIter last) noexcept;
+
 template<typename T>
 class allocator
 {
