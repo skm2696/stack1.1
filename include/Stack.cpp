@@ -57,9 +57,8 @@ void allocator<T>::swap(allocator& stk)
 };
 
 template <typename T>
-stack<T>::stack()  
+stack<T>::stack(size_t size) : allocator<T>(size) 
 {
-	destroy(allocator<T>::array_);
 }
 template <typename T>
 size_t stack<T>::count() const noexcept
@@ -73,10 +72,9 @@ void stack<T>::push(T const &v)
 	if (allocator<T>::count_ == allocator<T>::array_size_)
 	{
 		size_t array_size = allocator<T>::array_size_*2+(allocator<T>::array_size_==0);
-		T * vit = copy_n(allocator<T>::array_, allocator<T>::count_, array_size);
-		delete[] allocator<T>::array_;
-		allocator<T>::array_ = vit;
-		allocator<T>::array_size_ = array_size;
+		stack<T> temp(array_size);
+		while (temp.count() < allocator<T>::count_) temp.push(allocator<T>::array_[temp.count()]); 
+		this->swap(temp);
 	}
 	construct(allocator<T>::array_ + allocator<T>::count_, v);
 	++allocator<T>::count_;
