@@ -57,10 +57,8 @@ void allocator<T>::swap(allocator& stk)
 };
 
 template <typename T>
-stack<T>::stack()  
-{
-	destroy(allocator<T>::array_);
-}
+stack<T>::stack(size_t size)  : allocator<T>(size)
+{}
 template <typename T>
 size_t stack<T>::count() const noexcept
 {
@@ -73,10 +71,9 @@ void stack<T>::push(T const &v)
 	if (allocator<T>::count_ == allocator<T>::array_size_)
 	{
 		size_t array_size = allocator<T>::array_size_*2+(allocator<T>::array_size_==0);
-		T * vit = copy_n(allocator<T>::array_, allocator<T>::count_, array_size);
-		delete[] allocator<T>::array_;
-		allocator<T>::array_ = vit;
-		allocator<T>::array_size_ = array_size;
+		stack<T> temp(array_size);
+		while (temp.count() < allocator<T>::count_) temp.push(allocator<T>::array_[temp.count()]); 
+		this->swap(temp);
 	}
 	construct(allocator<T>::array_ + allocator<T>::count_, v);
 	++allocator<T>::count_;
@@ -87,7 +84,7 @@ size_t stack<T>::pop()
 {
 	if (allocator<T>::count_ == 0)
 	{
-		throw std::logic_error();
+		throw std::logic_error("Stack is empty!");
 	}
 	destroy(allocator<T>::array_ + allocator<T>::count_);
 	--allocator<T>::count_;
@@ -97,13 +94,15 @@ const T& stack<T>::top()
 {
 	if (allocator<T>::count_ == 0)
 	{
-		throw std::logic_error();
+		throw std::logic_error("Stack is empty!");
 	}
 	return allocator<T>::array_[allocator<T>::count_ - 1];
 }
 template <typename T>
 stack<T>::~stack()
-{}
+{
+	destroy(allocator<T>::array_, allocator<T>::array_ + allocator<T>::count_);
+}
 
 template <typename T>
 stack<T>::stack(const stack&tmp) 
