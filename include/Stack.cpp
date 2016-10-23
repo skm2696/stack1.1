@@ -87,7 +87,7 @@ size_t stack<T>::pop()
 {
 	if (allocator<T>::count_ == 0)
 	{
-		throw std::logic_error("Stack is empty!");
+		throw std::logic_error();
 	}
 	destroy(allocator<T>::array_ + allocator<T>::count_);
 	--allocator<T>::count_;
@@ -97,7 +97,7 @@ const T& stack<T>::top()
 {
 	if (allocator<T>::count_ == 0)
 	{
-		throw std::logic_error("Stack is empty!");
+		throw std::logic_error();
 	}
 	return allocator<T>::array_[allocator<T>::count_ - 1];
 }
